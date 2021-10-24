@@ -1,0 +1,127 @@
+﻿Vì ngồi cả buổi chiều chỉ làm được 1 bài nên ngồi viết review các bài và ngồi chờ write up.
+
+mặc dù không làm được bài ECC (Elliptic curve cryptography) - Một bài có nhiều người làm được, nhưng không sao ! 
+Mình cũng hấp thu được nhiều kiến thức mới .
+
+Đầu tiên mình sẽ review bài ECC mà mình không làm được nhé ! 
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++   hello, you know valuable information about given elliptic curve,   +
++   your mission is to answer the question in each stage quickly!      +
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+| E is an elliptic curve with k elements in the following form: 
+| E: y**2 = x**3 + a*x + b (mod p) 
+| p = 740826413576985517
+| a = ?
+| b = ?
+| k = 740826413888601676
+| What's the number of elements of E over finite field GF(p**n) where n = 11?
+
+Đề bài nó có cái E, nhưng không cho hệ số, ngoài ra nó cho cái k , chính là cái cardinality - chính là number of element of E trên GF(p).
+
+Nó yêu cầu: Tính cardinality của E trên GF(p^n) với n cho trước. 
+
+Ngồi cả chiều search mà không ra bài này, và trời đã chiều tối rồi nên viết lại mấy cái học được thôi nhé ( : )))) )
+
+Đầu tiên, mình sẽ dạo qua những trang web mà mình search được khi làm bài này nhé !
+
+1) https://cinsects.de/tum-ctf-2016-hiecss.html (Tóm tắt: Nó viết về cách tìm a,b,q trong ECC biết rằng ta quyền truy vấn liên tục đến server)
+
+2) Cách tính cardinality của một cái E nhé :
+
+p=740826413576985517
+k = 740826413888601676
+n = 11
+for A in range(0,500):
+	for B in range(0,500):
+		if(4*A*A*A+27*B*B)%p==0:
+			continue
+		a = EllipticCurve(GF(p),[A,B])
+		u = a.cardinality()
+		if(u==k):
+			print("A:",A)
+			print("B:",B)
+			break				
+# #a = EllipticCurve(GF(p),[A,B])
+# #u = a.cardinality()
+# #print(u)
+# p=5
+# for i in range(1,5):
+#     a = EllipticCurve(GF(p^i),[1,1])
+#     u = a.cardinality()
+#     print("i: ",u)
+# # print(u)
+
+
+3) https://ctftime.org/writeup/22406 (Tóm tắt: Một bài ECC có dính chút RSA với pad với một số variant - Mình mới lướt qua nên không đọc kĩ lắm)
+
+4) https://blog.efiens.com/post/midas/isitdtuctf2020-rev02-writeups/ (Tóm tắt: Đây là một blog chất lượng, viết rõ ràng dễ hiểu, +1 respect-- bài này về rev nhé !)
+
+5) https://blog.efiens.com/post/npn/efiens-internal-ctf-crypto-writeups/ (Tóm tắt: Tiếp tục là một series hay về crypto chất lượng - có thời gian mình sẽ đọc và ngẫm sau )
+
+6) http://tryhardctf.blogspot.com/2017/07/medium-easy-regrettable-ecc-in-mma-ctf.html (Tóm tắt: Một bài ECC của người Việt viết, chắc cũng thú vị :haha)
+
+7) https://stackoverflow.com/questions/10380029/elliptic-curve-and-point-cardinalities (Tóm tắt: cái này nói về cách tìm cardinality của một E trên (GF(p)))
+
+8) http://magma.maths.usyd.edu.au/calc/ (trang này để tính một cái gì đó rất magic về cardinality, đợi chút mình cho cái ví dụ )
+
+Ví dụ:
+K:=GF(991);
+
+g:=Generator(K);
+
+E:=EllipticCurve([0,0,0,446*g,471*g]);
+
+#E;
+
+9) https://math.stackexchange.com/questions/805075/sage-usage-to-calculate-a-cardinality (Tóm tắt: Cái trang này là cái dẫn đến trang 8)
+
+10) https://hal.archives-ouvertes.fr/hal-01914807/document (Tóm tắt: Introduction to the Mathematical Foundations of Elliptic Curve Cryptography: Nền tảng toán học của ECC)
+
+11) https://github.com/pdinges/python-schoof (tóm tắt: Đây là thuật toán Schoof - Một thuật toán tìm cardinality mang tính đột phát đó - Vippro. Schoof là nhà toán học )
+
+12) https://perso.univ-rennes1.fr/reynald.lercier/file/LM95.pdf (Tóm tắt: Thuật toán đếm điểm trên ECC - Mình cay vì mình không hiểu nhiều để áp dụng vào bài toán của contest)
+
+13) https://math.stackexchange.com/questions/4110448/two-seemingly-non-isomorphic-elliptic-curves-over-a-finite-field-which-have-the (Tóm tắt: Một topic hay về ECC)
+
+14) https://eprint.iacr.org/2019/1050.pdf (kĩ thuật tấn công liên quan đến RSA và ECC - Có vẻ hay và khó)
+
+15) http://homepages.warwick.ac.uk/~masiao/maths/lecturenotes/ellipticnotes.pdf (tóm tắt: một bài giảng hay về ECC - Nó hay vì mình ko hiểu)
+
+16) https://fse.studenttheses.ub.rug.nl/21605/1/bMATH_2020_VisserJ.pdf (một bài giảng đầy đủ về thuật toán Schoof)
+
+17) https://www.emis.de/journals/JTNB/2007-3/article06.pdf (một bài advanced ECC - Lại một lần nữa mình ko hiểu : haha)
+
+18) https://oeis.org/search?q=1%2C3%2C12%2C75&sort=&language=vietnamese&go=Ti%CC%80m+ki%C3%AA%CC%81m (tóm tắt: Một trang khá hay để tìm quy luật dãy số)
+
+19) https://ask.sagemath.org/question/33943/early-abort-for-ecardinality/ (tóm tắt: đây là một diễn đàn hay để hỏi đáp về sagemath)
+
+20) https://doc.sagemath.org/html/en/reference/arithmetic_curves/sage/schemes/elliptic_curves/ell_finite_field.html (đây là trang tổng hợp về ECC trên sagemath)
+
+21) https://cocalc.com/projects/2a21efb7-bfb0-4bd8-9f7f-5f0aa9184267/files/?anonymous=true&session=default (tóm tắt: một trang đẻ chạy sagemath trên web, ngoài ra để tiện chạy off, các bạn có thể sử dụng kali như mình nhé)
+
+22) https://math.stackexchange.com/questions/1402826/the-cardinality-of-elliptic-curves-over-finite-field (một thảo luận toán học về ECC)
+
+23) https://github.com/ashutosh1206/Crypton/tree/master/Discrete-Logarithm-Problem/Elliptic-Curve-DLP (ECDLP githu - Một trang đẩy đủ về những bài toán cổ điển của ECC)
+
+25) https://github.com/ashutosh1206/Crypton/blob/master/Discrete-Logarithm-Problem/Elliptic-Curve-DLP/Algo-Baby-Step-Giant-Step/README.md (một trang github về thuật toán Baby Step Giant Step - Một thuật toán để tính cardinaty của E trên GF(p))
+
+26) https://github.com/mahanKarimi/Babystep-Giantstep (một trang khác để tính babystep-giantstep)
+
+27) https://github.com/RyanKung/pyschoof (github chạy thuật toán Schoof)
+
+28) https://en.wikipedia.org/wiki/Baby-step_giant-step (wiki về thuật toán baby)
+
+29) https://en.wikipedia.org/wiki/Cardinality (định nghĩa về cardinality)
+
+30) https://en.wikipedia.org/wiki/Counting_points_on_elliptic_curves (Counting points on elliptic curves)
+
+31) https://www.fi.muni.cz/usr/gruska/crypto13/crypto_08.pdf (một bài giảng chất lượng về ECC)
+
+32) https://ctnt-summer.math.uconn.edu/wp-content/uploads/sites/1632/2018/05/2018CTNT-WallaceNotes.pdf (một bài giảng về toán viết latex đẹp và chất lượng)
+
+33) https://github.com/miracl/MIRACL/blob/master/source/curve/sea.cpp (github viết bằng C++ rất đỉnh về ECC)
+
+--> OKIE TẠM THỜI REVIEW CỦA MÌNH ĐÃ HẾT <-- . HẸN GẶP LẠI CÁC BẠN. MÌNH SẼ UP CÁI NÀY LÊN WRITE UP NHÉ 
+
+BYE BYE !
